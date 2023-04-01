@@ -21,7 +21,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
         integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    
     <title>Bill Management System</title>
 </head>
 
@@ -53,7 +54,8 @@
             <p id="total"></p>
             <p id="payment_status"></p>
             <button id="downloadpdf" onclick="generate()">Download Bill</button>
-            <button id="image" onclick="asimage()">Save as a Image</button>
+            <canvas id="my-canvas"></canvas>
+            <button id="image" onclick="generateImage()">Save as a Image</button>
         </div>
     </div>
 
@@ -61,19 +63,19 @@
         let foods = [{
             pizza: [
                 {
-                    image: "/home/ashishv/js precticals/restaurant/download.jpeg",
+                    image: "./images/double_chess.jpeg",
                     pname: "MARGHERITA",
                     price: 200,
                     quantity: 0
                 },
                 {
-                    image: "/home/ashishv/js precticals/restaurant/double_chess.jpeg",
+                    image: "./images/double_chess.jpeg",
                     pname: "DOUBLE CHEESE MARGHERITA",
                     price: 250,
                     quantity: 0
                 },
                 {
-                    image: "/home/ashishv/js precticals/restaurant/peppy_paneer.jpeg",
+                    image: "./images/peppy_paneer.jpeg",
                     pname: "PEPPY PANEER",
                     price: 300,
                     quantity: 0
@@ -151,10 +153,19 @@
             // alert("successfully download")
 
         }
-        function asimage(){
-            const img = document.getElementById("invoice")
-            const test = new image
-            testImg.src = images/test1.png
+        function generateImage(){
+            debugger
+            const element = document.getElementById("invoice");
+            const canvas = document.getElementById("my-canvas");
+    
+            html2canvas(element).then(function(canvas) {
+              const dataURL = canvas.toDataURL();
+              const link = document.createElement("a");
+              link.download = `${document.forms["food"]["fname"].value}.png`;
+              link.href = dataURL;
+              link.click();
+            });
+            
         }
 
         function reset() {
